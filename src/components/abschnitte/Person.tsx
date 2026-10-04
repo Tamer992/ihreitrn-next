@@ -1,3 +1,4 @@
+import { pfad } from "@/inhalt/pfad";
 import { person } from "@/inhalt/startseite";
 
 export function Person() {
@@ -6,11 +7,11 @@ export function Person() {
       <div className="huelle grid gap-12 md:grid-cols-12 md:gap-8">
         <figure data-einblenden className="md:col-span-5 lg:col-span-4">
           <picture>
-            <source type="image/avif" srcSet="/bilder/tamer-kumaru-480.avif 480w, /bilder/tamer-kumaru-840.avif 840w" sizes="(min-width: 768px) 33vw, 100vw" />
-            <source type="image/webp" srcSet="/bilder/tamer-kumaru-480.webp 480w, /bilder/tamer-kumaru-840.webp 840w" sizes="(min-width: 768px) 33vw, 100vw" />
+            <source type="image/avif" srcSet={`${pfad("/bilder/tamer-kumaru-480.avif")} 480w, ${pfad("/bilder/tamer-kumaru-840.avif")} 840w`} sizes="(min-width: 768px) 33vw, 100vw" />
+            <source type="image/webp" srcSet={`${pfad("/bilder/tamer-kumaru-480.webp")} 480w, ${pfad("/bilder/tamer-kumaru-840.webp")} 840w`} sizes="(min-width: 768px) 33vw, 100vw" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/bilder/tamer-kumaru-840.jpg"
+              src={pfad("/bilder/tamer-kumaru-840.jpg")}
               alt={person.bildAlt}
               width={840}
               height={1050}

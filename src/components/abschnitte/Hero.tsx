@@ -1,3 +1,4 @@
+import { pfad } from "@/inhalt/pfad";
 import { hero } from "@/inhalt/startseite";
 import { NummerGross, WeitereWege } from "../Kontaktwege";
 import { Szene } from "../Szene";
@@ -43,7 +44,7 @@ export function Hero() {
         <div className="relative -mx-[var(--rand)] mt-6 aspect-square max-h-[34rem] sm:mx-auto sm:w-[34rem] lg:hidden">
           <Szene art="handy">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/kugel.svg" alt="" className="h-full w-full" />
+            <img src={pfad("/kugel.svg")} alt="" className="h-full w-full" />
           </Szene>
         </div>
       </div>
@@ -58,7 +59,7 @@ export function SzeneComputer() {
       <div className="sticky top-0 h-[100svh]">
         <Szene art="computer">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/kugel.svg" alt="" className="absolute top-1/2 h-[72svh] w-[72svh] -translate-y-1/2" style={{ left: "calc(74% - 36svh)" }} />
+          <img src={pfad("/kugel.svg")} alt="" className="absolute top-1/2 h-[72svh] w-[72svh] -translate-y-1/2" style={{ left: "calc(74% - 36svh)" }} />
         </Szene>
       </div>
     </div>
