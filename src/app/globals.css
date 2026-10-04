@@ -1,26 +1,167 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Design-Tokens. Farben, Schrift, Abstände und Bewegung nur hier ändern. */
+@theme {
+  --color-alu: #eef0f3;
+  --color-weiss: #fbfcfd;
+  --color-linie: #c5ccd5;
+  --color-linie-hell: #dde2e8;
+  --color-graphit: #0f1b2b;
+  --color-schiefer: #4a5666;
+  --color-blau: #285a92;
+  --color-blau-tief: #1d4573;
+
+  --text-titel-1: clamp(2.75rem, 1.5rem + 4.4vw, 5.5rem);
+  --text-titel-2: clamp(2rem, 1.45rem + 2.4vw, 3.5rem);
+  --text-titel-3: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  --text-gross: clamp(1.1875rem, 1.1rem + 0.35vw, 1.375rem);
+  --text-basis: 1.125rem;
+  --text-klein: 1rem;
+
+  --ease-ruhig: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-titel: var(--font-archivo), ui-sans-serif, sans-serif;
+  --font-text: var(--font-atkinson), ui-sans-serif, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --dauer-hover: 240ms;
+  --dauer-inhalt: 900ms;
+  --dauer-zier: 1500ms;
+  --rand: clamp(1.25rem, 0.6rem + 3vw, 3.5rem);
+  --abschnitt: clamp(5.5rem, 3rem + 9vw, 11rem);
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-alu);
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-alu);
+  color: var(--color-graphit);
+  font-family: var(--font-text);
+  font-size: var(--text-basis);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
+
+/* Überschriften: Archivo, Breite fest auf 112 (in der Schriftdatei eingestellt), eng gesetzt */
+.titel {
+  font-family: var(--font-titel);
+  font-weight: 560;
+  letter-spacing: -0.025em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+.titel-1 { font-size: var(--text-titel-1); letter-spacing: -0.035em; line-height: 0.98; }
+.titel-2 { font-size: var(--text-titel-2); }
+.titel-3 { font-size: var(--text-titel-3); letter-spacing: -0.012em; line-height: 1.2; font-weight: 600; }
+
+.text-fliess { max-width: 62ch; text-wrap: pretty; }
+.nummer { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.huelle {
+  width: 100%;
+  max-width: 82.5rem;
+  margin-inline: auto;
+  padding-inline: var(--rand);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-blau);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Sichtbarer Platzhalter für fehlende Angaben */
+.fehlt {
+  display: inline-block;
+  padding: 0.1em 0.45em;
+  border: 1px dashed var(--color-blau);
+  color: var(--color-blau);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+::selection { background: var(--color-blau); color: var(--color-weiss); }
+
+/* Textlink mit wachsender Unterstreichung */
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  min-height: 44px;
+  font-weight: 600;
+  color: var(--color-graphit);
+  text-decoration: none;
+}
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.45em;
+  height: 1px;
+  background: currentColor;
+  transform-origin: left;
+  transform: scaleX(0.28);
+  transition: transform var(--dauer-hover) var(--ease-ruhig);
+}
+.link .pfeil { transition: transform var(--dauer-hover) var(--ease-ruhig); }
+.link:hover::after, .link:focus-visible::after { transform: scaleX(1); }
+.link:hover .pfeil, .link:focus-visible .pfeil { transform: translateX(4px); }
+.link--blau { color: var(--color-blau); }
+
+/* Nur am Computer mit Maus: Nummer + QR. Nur auf Touch: Anrufleiste. */
+.nur-maus { display: none !important; }
+@media (hover: hover) and (pointer: fine) {
+  .nur-maus { display: block !important; }
+  .nur-touch { display: none !important; }
+}
+
+/* Einblenden des ersten Bildschirms ohne Skript */
+@media (prefers-reduced-motion: no-preference) {
+  .auftritt {
+    animation: auftritt var(--dauer-inhalt) var(--ease-ruhig) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+}
+/* Einblenden beim Scrollen (Zustand setzt Bewegung.tsx): Inhalte 900 ms, Zier 1500 ms */
+[data-einblenden] {
+  transition: opacity var(--dauer-inhalt) var(--ease-ruhig), transform var(--dauer-inhalt) var(--ease-ruhig);
+}
+[data-einblenden][data-zustand="wartet"] { opacity: 0; transform: translateY(24px); }
+[data-zier] { transition: transform var(--dauer-zier) cubic-bezier(0.65, 0, 0.35, 1), opacity var(--dauer-zier) ease-out; }
+[data-zier="linie"][data-zustand="wartet"] { transform: scaleX(0); }
+[data-zier="linie"][data-richtung="senkrecht"][data-zustand="wartet"] { transform: scaleY(0); }
+[data-zier="ring"] { transform-box: fill-box; transform-origin: center; }
+[data-zier="ring"][data-zustand="wartet"] { opacity: 0; transform: scale(0.86); }
+@media (prefers-reduced-motion: reduce) {
+  [data-einblenden], [data-zier] { transition: none; }
+}
+
+@keyframes auftritt {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Kleine Bewegungsbilder je Leistung: laufen nur, wenn sichtbar */
+/* !important, weil die Animation als Inline-Stil gesetzt ist und den Zustand sonst überschreibt */
+.motiv [data-a] { transform-box: fill-box; transform-origin: center; animation-play-state: paused !important; }
+.motiv[data-aktiv="ja"] [data-a] { animation-play-state: running !important; }
+@media (prefers-reduced-motion: reduce) {
+  .motiv [data-a] { animation: none !important; }
+}
+
+@keyframes m-reise { 0%, 10% { transform: translate(0, 0); opacity: 0; } 18% { opacity: 1; } 74% { opacity: 1; } 84%, 100% { transform: translate(var(--wx, 0px), var(--wy, 0px)); opacity: 0; } }
+@keyframes m-welle { 0% { transform: scale(0.2); opacity: 0; } 15% { opacity: 0.9; } 100% { transform: scale(1); opacity: 0; } }
+@keyframes m-fuellen { 0%, 22% { transform: scale(0); } 40%, 86% { transform: scale(1); } 100% { transform: scale(0); } }
+@keyframes m-ein { 0%, 30% { opacity: 0; } 46%, 86% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes m-dreh { to { transform: rotate(360deg); } }
+@keyframes m-zeile { 0%, 100% { opacity: 0.25; } 10%, 26% { opacity: 1; } }
