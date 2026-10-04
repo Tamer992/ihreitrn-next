@@ -66,7 +66,6 @@ export function Szene({ art, children }: { art: Art; children: React.ReactNode }
         if (aufgeraeumt) return;
         gsap.registerPlugin(ScrollTrigger);
         const hero = document.getElementById("start");
-        const leistungen = document.getElementById("leistungen");
         const bereich = document.getElementById("szenenbereich");
         const ausloeser = [
           hero &&
@@ -75,14 +74,6 @@ export function Szene({ art, children }: { art: Art; children: React.ReactNode }
               start: "top top",
               end: "bottom top",
               onUpdate: (s) => netz.setzeVerlauf(s.progress),
-            }),
-          leistungen &&
-            ScrollTrigger.create({
-              trigger: leistungen,
-              start: "top 85%",
-              end: "top 15%",
-              scrub: true,
-              onUpdate: (s) => netz.setzeFlach(s.progress),
             }),
           bereich &&
             ScrollTrigger.create({

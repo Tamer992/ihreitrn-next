@@ -262,11 +262,10 @@ export function starteNetzwerk(huelle: HTMLElement, { anzahl, mobil, geordnet = 
     flachIst += (flachZiel - flachIst) * Math.min(dt * 4, 1);
     uniforms.uFlach.value = flachIst;
 
-    // Sichtbarkeit: Die Kugel gehört zum Hero und blendet beim Verlassen aus. Hinter den Leistungen
-    // baut sich das Raster leise wieder auf. Dazwischen (Text über die Person, zwei Wege) ist nichts zu sehen.
+    // Sichtbarkeit: Die Kugel gehört zum Hero und blendet beim Verlassen aus. Danach ist nichts mehr zu sehen
+    // (das Raster hinter den Leistungen ist seit 04.10.2026 abgeschaltet, setzeFlach wird nicht mehr aufgerufen).
     const kugelAnteil = mobil ? 1 : 1 - glatt(0.3, 0.8, verlauf);
-    const rasterAnteil = glatt(0.45, 1, flachIst) * 0.4;
-    const deck = Math.min(seit / 0.9, 1) * Math.max(kugelAnteil * (1 - flachIst), rasterAnteil);
+    const deck = Math.min(seit / 0.9, 1) * kugelAnteil * (1 - flachIst);
     uniforms.uDeckkraft.value = deck;
     if (deck < 0.004) {
       if (!leer) renderer.clear();
