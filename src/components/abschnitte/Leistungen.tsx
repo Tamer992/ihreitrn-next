@@ -25,7 +25,9 @@ export function Leistungen() {
         <ul className="grid gap-x-10 gap-y-16 sm:grid-cols-2 lg:col-span-8 lg:gap-y-20">
           {leistungen.map((l) => (
             <li key={l.titel} data-einblenden className="group relative">
-              <Motiv name={l.motiv} className="h-auto w-full max-w-[15rem]" />
+              <div className="max-w-[15rem] transition-transform duration-[240ms] ease-ruhig group-focus-within:-translate-y-1 group-hover:-translate-y-1">
+                <Motiv name={l.motiv} className="h-auto w-full" />
+              </div>
               <h3 className="titel titel-3 mt-6">
                 <Link prefetch={false} href={l.href} className="after:absolute after:inset-0 after:content-['']">
                   {l.titel}

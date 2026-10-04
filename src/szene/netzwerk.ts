@@ -112,7 +112,7 @@ const linieFragment = /* glsl */ `
   varying float vTiefe;
   varying float vSpeiche;
   void main() {
-    vec3 schiefer = vec3(0.29, 0.337, 0.4);
+    vec3 schiefer = vec3(0.345, 0.329, 0.306);
     vec3 blau = vec3(0.157, 0.353, 0.573);
     float a = mix(0.1, 0.19, smoothstep(0.4, 1.0, uOrdnung));
     a = mix(a, 0.42, vSpeiche * uOrdnung);

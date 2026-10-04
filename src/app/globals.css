@@ -2,12 +2,12 @@
 
 /* Design-Tokens. Farben, Schrift, Abstände und Bewegung nur hier ändern. */
 @theme {
-  --color-alu: #eef0f3;
-  --color-weiss: #fbfcfd;
-  --color-linie: #c5ccd5;
-  --color-linie-hell: #dde2e8;
-  --color-graphit: #0f1b2b;
-  --color-schiefer: #4a5666;
+  --color-alu: #f2f0ec;
+  --color-weiss: #fcfbf9;
+  --color-linie: #cdc8c0;
+  --color-linie-hell: #e3dfd8;
+  --color-graphit: #1d1c1a;
+  --color-schiefer: #58544e;
   --color-blau: #285a92;
   --color-blau-tief: #1d4573;
 
@@ -151,17 +151,21 @@ body {
   to { opacity: 1; transform: none; }
 }
 
-/* Kleine Bewegungsbilder je Leistung: laufen nur, wenn sichtbar */
-/* !important, weil die Animation als Inline-Stil gesetzt ist und den Zustand sonst überschreibt */
-.motiv [data-a] { transform-box: fill-box; transform-origin: center; animation-play-state: paused !important; }
-.motiv[data-aktiv="ja"] [data-a] { animation-play-state: running !important; }
-@media (prefers-reduced-motion: reduce) {
-  .motiv [data-a] { animation: none !important; }
+/* Strichzeichnungen der Leistungen: zeichnen sich einmal auf (Zier-Tempo), Teile leicht nacheinander */
+.motiv .strich {
+  fill: none;
+  stroke: var(--color-graphit);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset var(--dauer-zier) var(--ease-ruhig);
+  transition-delay: calc(var(--n, 0) * 120ms);
 }
-
-@keyframes m-reise { 0%, 10% { transform: translate(0, 0); opacity: 0; } 18% { opacity: 1; } 74% { opacity: 1; } 84%, 100% { transform: translate(var(--wx, 0px), var(--wy, 0px)); opacity: 0; } }
-@keyframes m-welle { 0% { transform: scale(0.2); opacity: 0; } 15% { opacity: 0.9; } 100% { transform: scale(1); opacity: 0; } }
-@keyframes m-fuellen { 0%, 22% { transform: scale(0); } 40%, 86% { transform: scale(1); } 100% { transform: scale(0); } }
-@keyframes m-ein { 0%, 30% { opacity: 0; } 46%, 86% { opacity: 1; } 100% { opacity: 0; } }
-@keyframes m-dreh { to { transform: rotate(360deg); } }
-@keyframes m-zeile { 0%, 100% { opacity: 0.25; } 10%, 26% { opacity: 1; } }
+.motiv .strich--akzent { stroke: var(--color-blau); stroke-width: 2.2; }
+.motiv .strich--punkt { stroke-width: 7; }
+.motiv .strich--griff { stroke-width: 7; }
+.motiv[data-zustand="wartet"] .strich { stroke-dashoffset: 1.01; transition: none; }
+/* Der Zier-Übergang auf transform/opacity gilt nicht für die Zeichnung selbst */
+[data-zier="zeichnung"] { transition: none; }

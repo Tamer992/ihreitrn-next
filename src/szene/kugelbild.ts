@@ -21,13 +21,13 @@ export function kugelSvg(anzahl = 200): string {
     .map(([i, j]) => {
       const blau = i === 0;
       const deck = r((blau ? 0.42 : 0.26) * Math.min(proj[i].t, proj[j].t));
-      return `<line x1="${r(proj[i].x)}" y1="${r(proj[i].y)}" x2="${r(proj[j].x)}" y2="${r(proj[j].y)}" stroke="${blau ? "#285a92" : "#4a5666"}" stroke-opacity="${deck}"/>`;
+      return `<line x1="${r(proj[i].x)}" y1="${r(proj[i].y)}" x2="${r(proj[j].x)}" y2="${r(proj[j].y)}" stroke="${blau ? "#285a92" : "#58544e"}" stroke-opacity="${deck}"/>`;
     })
     .join("");
   const kreise = proj
     .slice(1)
     .sort((p, q) => p.t - q.t)
-    .map((p) => `<circle cx="${r(p.x)}" cy="${r(p.y)}" r="0.62" fill="#5c6878" fill-opacity="${r(p.t)}"/>`)
+    .map((p) => `<circle cx="${r(p.x)}" cy="${r(p.y)}" r="0.62" fill="#6b665f" fill-opacity="${r(p.t)}"/>`)
     .join("");
   const mitte = `<circle cx="${r(proj[0].x)}" cy="${r(proj[0].y)}" r="1.5" fill="#285a92"/>`;
 
