@@ -2,6 +2,10 @@
 
 Neuaufbau von ihreitrn.de mit Next.js, TypeScript, Tailwind CSS und Three.js. Stand: nur die Startseite, Unterseiten sind Platzhalter. Die Live-Seite läuft weiter aus dem alten Projekt.
 
+## Vorschau
+
+Bei jedem Hochladen auf `main` baut GitHub die Seite neu: https://tamer992.github.io/ihreitrn-next/ (für Suchmaschinen gesperrt).
+
 ## Befehle
 
 ```bash
